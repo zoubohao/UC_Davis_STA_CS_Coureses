@@ -1,0 +1,80 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+#### Report ID: Team12_4
+#### Overall Score: 6/10
+#### Project: 4
+
+### 1. Please summarize this report in your own words (up to 200 words).
+
+In this project, this team used Bank Term Deposit data which was collected from UCI machine learning repository. They choose incomplete data because small data set improves the efficiency of calculating and alleviates the problem of unbalanced labels. They selected logistic regression to predict the binary response variable based on the reasons that the data is roughly linear separable, removed all outliers and non-parametric models perform worse. They encoded the categorical variables as one hot encoding to solve the problem that the logistic regression model can't deal the categorical variables. There are 10 variables in this model. Its are Education, Housing, Loan, Contact, Day, Month, Duration, Campaign, Poutcomr and Marital respectively. They sketched box-plot of residuals and residuals vs fitted values plot to evaluate the performance of this model. For the model diagnostic, the authors not only checked the linearity between predictors and responses but also used cooks distance and VIF to check the outliers and multicollinearity. They selected the SVM as alternative model because the SVM can provide the linear separation hyper-plane and suitable for dealing high dimensional data. For comparing the performance between SVM algorithm and logistic model, the authors drawn the ROC curves and computed the AUC for those two models to compare the capability of SVM and logistic regression.
+
+### 2. Are the chosen questions interesting?
+
+Yes.The goal of this project is to predict the binary responese variable of the Bank Tearm Deposit data set. The authors mentioned its in their analysis plan.
+
+### 3. Does the report show that the authors understand the data set?
+
+In my opinion, this report shows that the authors dose not understand the data set. The reason is that in their descriptive analysis, i can not get any useful information about this data set. The useful means that if it has relation with your next analysis step. For example, use the information which derived from the descriptive analysis to help selecting model variables.
+
+### 4. Can the proposed methods answer these questions?
+
+The model which they selected can answer these questions but there are some mistakes in dealing how to build this model and model diagnostics.
+
+### 5. Is the report well-organized and clearly written?
+
+It is well-organized but it is not clearly written.
+
+### 6. Should the report be given extra credit? 
+
+No, it is not a good analysis of this data set in my consideration.
+
+### 7. Please elaborate on your assessments and provide constructive feedback (no limit).
+
+#### Section 1.3  Statistical questions of interest and Analysis Plan. 
+
+- You gave the reasons why choose logistic regression model is that (1) the data is roughly linear separable, (2) have removed any outliers and (3) the variables dimension is high so that non-parametric models perform worse due to curse of dimensionality. For the first reason, in my point of view, if you want to state that the data set is roughly linear separable, you must give some evidences like draw a plot of those data and add a line which can split the data which label is yes and the data which the label is no roughly. If the number of variables are more than 3, you can use some method like PCA or t-SNE to reduce your variables and give the evidence which can support your conclusion. You only say that the data is roughly linear separable can not make other people convinced your conclusion. For the second reason, removed any outliers is not the reason that why you choose the logistic regression model. We all want to remove the outliers for clearing our data set. There is no relationship between removing outliers and choosing logistic regression. For the third reason, the non-parametric methods are good when you have a lot of data and no prior knowledge. There is no relationship with the number of variables. You can state that because we have choose the small data set but the non-parametric model needs prodigious training data. So, we do not use the non-parametric model.
+
+#### Section 2.2  Analysis Using Logistic Regression. 
+
+- In part of **Logistic Regression Definition** You expressed that some variables are actually categorical variables. For these variables, one hot encoding is conducted to convert the categorical variables to numerical. In my view, the expression one hot encoding is not accurate and will give others misleading. You should express that the categorical variables in this regression model will be converted to indicator variables. The assumptions missed one of assumption that logistic regression requires the observations to be independent of each other. You should state the observations are independent of each other in your model diagnostic.
+
+- In part of **Model Fitting and some Result**, your only displayed the 10 variables which are in this regression model but you did not give the reason why you choose those variables. There are 20 variables in this data set, giving a reasonable reason why you choose those 10 variables in your regression model will make reader convinced that the result of your model is correct. Only statement is useless. For those 10 variables, you only give the estimated coefficient of those variables. However, where is the significant level and the confidence interval of those variables ? At the last, your team state : “From the above table, we observe that the p value are not small, therefore the relationship between the mandatory jail sentence and the fatality rate is unclear. ” What is it ? I think it has relation with one of conclusion of project 3. Why it appears at here ?
+
+- In the part of **Evaluation of the Performance**. It is ridiculous to use box-plots of two residuals and Fitted value vs residuals to evaluate the performance of a predictive model like logistic regression. If you want to evaluate the capability of logistic regression model, you should divide the overall data set into two parts, one treated as training data set and the other treated as testing data set. Use the testing data set to evaluate the performance of your model. Give some scores like Accuracy or F1 scores or confusion matrix based on the prediction result which are derived from your testing data set. However, i did not see any words of how to divide data set. You state that residual plot dose not show a linear pattern which indicates the lack of fit. In my consideration, It is not because lack of fit. It is a normal phenomenon because it is logistic regression. It is non-linearity at all.
+
+#### Section 2.3 Model Diagnostic Analysis
+
+- In part of **Linearity Checking**. It is a misleading expression that check the linear relationship between the continuous predictors and response. What the response represent ? You should state that We should check the linearity between the independent continuous variables and the log odds. While some variables are not non-linearity with the log odds, it is not causes of lack of fit. If all variables are linearity with log odds, the performance of logistic regression model will reach the max point. However, if some variables are not linear with log odds, the capacity of logistic regression will decay.
+
+#### Section 2.4 Another prediction model.
+
+- Because you did not state that the data set is linear separable, so, the reason that the SVM can provide linear separation hyper-plane is not reasonable for using SVM. SVM is not suitable for processing high dimensional data. Because it will takes amount of time to calculate the hyper-plane based on the support vectors. The high dimensional data is a problem for most of models.The SVM model only can use kernel trick to make nonlinear separation data set into a high dimension. In the high dimension, the data set is linear separation and then use the reversed transformation mapping the hyper-plane of high dimension into the lower dimension. Finally, the SVM can classify the nonlinear separation data set. 
+
+### 8. Please provide questions for authors to address during presentations (no limit).
+
+#### Section 2.3 Model Diagnostic Analysis - Linrearity checking
+
+- How did you judge if there is a linearity between independent continuous variables and the log odds from the plot ?
+
+#### Section 2.4 Another prediction model.
+
+- ***Because i did not see any words to describe how to divide the data set, i just wonder how do you get the ROC curve and the AUC value of logistic regression model and SVM ?***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

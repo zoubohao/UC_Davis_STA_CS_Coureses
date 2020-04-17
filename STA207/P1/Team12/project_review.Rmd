@@ -1,0 +1,79 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+#### Report ID: Team12_4
+#### Overall Score: 6/10
+#### Project: 2
+
+### 1. Please summarize this report in your own words (up to 200 words).
+
+The data comes from The Student/Teacher Achievement Ratio (STAR) project. In this study, it treats one teacher as the unit and explores if there is a association between the Class Size and one of statistic of Math Score of students which are taught by teachers. The first step of this study is that explore the variables in this data set and get the primary conclusion that which variables associate with teachers or Math Scores or both. Then, the study gives some reasons that why the statistic is the mean of Math Score of students. For getting more accuracy result, this study uses school id to divide teachers into different groups. For analyzing those three variables, the study uses balance Two-Way ANOVA model without interaction terms. For giving more precision result, the study uses Tukey’s Post-Hos analysis to show that there are significant difference between Small class size and Regular, Regular with aide class size under significant level of 0.05. There is no significant different between Regular and Regular with aide class size. Finally, they discussed the Rubin Causal Model Assumptions by using two key points, Stable unit treatment value assumption(SUTVA) and Random Assignment Conditional on Observations.
+
+### 2. Are the chosen questions interesting?
+
+The question which they chose is that whether class type affects math scores. I think it is a interesting question however, they should state the question more precisely and give a next asking, if there are difference of Math Score between class types, which pair of class types is different and how much it is different.
+
+### 3. Does the report show that the authors understand the data set?
+
+This report shows that the authors understand the data set because they use numerous plots to explore the relationship between variables of this data set and Math Score variable. They also drew  some distribution plots of some variables which associate with each teacher like teacher degree level.
+
+### 4. Can the proposed methods answer these questions?
+
+In my thinking, they used a wrong model. Because the number of data in each Class Size and School id combination cell is not same. It is a unbalanced data. So, they should use unbalanced Two-Way ANOVA model. According to their statement, they used a balance ANOVA model.(It is unclear because they did not express it directly, however, it implies that they use a balance model.) So, this method can not answer this question exactly.
+
+### 5. Is the report well-organized and clearly written?
+
+It is not well-organized because there is a replication of Introduction and Exploratory Data Analysis at the end of this report and the format of figures and tables are so mess. There are some gramme mistakes in this report and some statements are not clearly.Its always confuse me. So, it is not a clearly written.
+
+### 6. Should the report be given extra credit? 
+
+No, it is not a good analysis of this data set at all in my consideration.
+
+### 7. Please elaborate on your assessments and provide constructive feedback (no limit).
+
+##### Merits:
+
+- The exploratory of data analysis is the most prominent part of this report. The authors explore the data set carefully and drew numerous plots to get primary conclusion that if the variable in this data set has association with Math scores which we are attention. At this step, we can eliminate most of variables in this data set and get a concise data set. It can help us to know the relationship of those variables and get a more precise result because we exclude unrelated variables.
+
+##### Defects:
+
+- The first defect appears in the section of Exploratory Data Analysis. They drew the distribution of some variables which are related with teacher. They say that "The distributions of these variables are similar across treatment groups, as expected from randomization". The authors do not define what is "similar" and do not give the reason why those distributions are similar so that those variables are expected from randomization. In my opinion, if the variables are random selected, the distributions of those variables should be different but not similar.
+
+- The second defect appears in the section of How to aggregate math scores over the classes? The authors say that "In fact, the scores are fairly normally distributed and do not have many extreme outliers." They do not give any evidence to support that the Math Scores are fairly normally distribution and do not have any extreme outliers. So, i suspicious about this conclusion.
+
+- The third defect appears in the same section. The authors say that "A concern with using ANOVA to analyze this data is that the variance of the mean and median of math scores is theoretically associated with the class size." By the Two-Way ANOVA regression formula we know that the error terms obey the normal distribution and with a fixed variance. This variance dose not change with the treatment groups. So, it is a totally wrong expression and the result is definitely wrong.
+
+- The fourth defect appears in the section of Two-way ANOVA model. The authors say that "A priori, the high number of schools (76 schools, each treated as an individual factor) does not lend to a precise conclusion from a significant result. This is simply due to the lack of data available to construct estimates for each class type – school combination". The high number of groups and lack of data in each class type - school combination cell are not the reason that its will conduct a low precise conclusion from a significant result. We can do Two-way ANOVA regardless the number of groups and get a precision result from ANOVA table. Even though there is only one replication data in each class type - school combination cell, we can also do one replication, balance Two-way ANOVA analysis to get a exact conclusion which we want to get. 
+
+- The fifth defect is also in the section of Two-way ANOVA model. The reasons that why there is no interaction terms in this ANOVA model is that (1) "there was no alarming departure from normality seen in a histogram of the model residuals nor drastic deviations seen in the QQ-plot", (2) "a scatter plot of the residuals versus the fifitted values give no indication of heteroscedasticity". The normality of this model and the heteroscedasticity of this model have no any relationship with the reason why authors do not choose interaction terms. One way to support the reason why do not choose interaction terms is that use F- test to test if the interaction terms are significant under the Two-way ANOVA model with interaction terms. 
+
+- The sixth defect is that i think they do not attention that the data is a unbalanced data and they use the balanced Two-way ANOVA model to get the conclusion. It is a definitely wrong.
+
+### 8. Please provide questions for authors to address during presentations (no limit).
+
+1. In this report, you do not tell us how do you deal with the school id groups. So, if the school id effect the mean Math score of teachers. If you want to ignore the effection of school ids, please tell me why.
+
+2. Why do authors give F value in ANOVA table rather then the corresponding P value ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
