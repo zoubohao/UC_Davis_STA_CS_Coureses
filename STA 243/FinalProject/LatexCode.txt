@@ -1,0 +1,20 @@
+\section{Experimental Details}
+In this section, we will discuss the experiment of Sketch Newton algorithm. In this project, because the limitation of computing resource and the complexity of this algorithm, we will apply this method on Logistic Regression. The goal of this experiment is to compare the consuming time and the convergence speed of Sketch Newton method and Standard Newton algorithm.
+\subsection{Setup}
+From the methodology part we can know that the main idea of Sketch Newton algorithm is used a sketch matrix to reduce the dimension of Hessian matrix. \\
+\\
+For Sketch Newton algorithm, the reduced dimension in this project we select is 2. We simulated a data matrix $X \in \R^{N \times K}$ from Standard Normal Distribution $\N(0,1)$, where $N$ represents the samples numbers and $K$ denotes the coefficients number. In this project, we selected $N = 1000$ and $K = 100$.
+We randomly established the labels of each samples from Bernoulli distribution. The probability is $p = 0.5$ for label 1. The initial coefficients $\Vec{\beta}^{0} \in \R^K$ randomly build from Standard Normal Distribution $\N(0,1)$. \\
+\\
+For Standard Newton algorithm, we used the same data matrix, same labels and same initial coefficients. The max iteration of those two algorithms are all 10000 times.
+
+\subsection{Results}
+The comparison between Sketch  Newton  algorithm and Standard Newton method is showed in the plot.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width = 12cm]{C.png}
+    \caption{\textit{The comparison between those two algorithms. Red line represents the Sketch Newton. Blue line represents the standard Newton.}}
+    \label{fig:my_label}
+\end{figure}
+\\
+We used the mean MSE loss for the predict vector and truth labels. From this plot we can know that there contains fluctuation in the Sketch Newton method and the convergence property of Sketch Newton method is not as good as Standard Newton method in the same iterations. The consuming time of Sketch Newton is 17 minutes with 7 seconds. The consuming time of Standard Newton is 28 minutes with 40 seconds. Those phenomenons are all in line with our  expectations. This is because the Sketch Newton method contains random factor in it. It needs more iterations to converge the truth value.
