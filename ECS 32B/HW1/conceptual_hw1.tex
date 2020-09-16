@@ -1,0 +1,594 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+    \geometry{
+    left=0.5in,
+    top=0.5in,
+    right=0.5in,
+    bottom=0.75in
+    }
+\usepackage{enumitem} % https://latex.org/forum/viewtopic.php?t=28712
+\usepackage{mdframed}
+\usepackage{listings}
+\usepackage{graphicx}
+\graphicspath{ {../../images/} }
+\usepackage{hyperref}
+\hypersetup{colorlinks,urlcolor=blue}
+
+\usepackage{soul} % strikethrough with \st{}
+
+\usepackage{amsmath}  % for the recurrences with multiple cases
+
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% \lstdefinestyle{mystyle}{
+%     basicstyle=\ttfamily\footnotesize,
+%     breakatwhitespace=false,         
+%     breaklines=true,                 
+%     captionpos=b,                    
+%     keepspaces=true,                 
+%     numbers=left,                    
+%     numbersep=5pt,                  
+%     showspaces=false,                
+%     showstringspaces=false
+% }
+ 
+\lstset{style=mystyle}
+
+% Source: https://tex.stackexchange.com/questions/30720/footnote-without-a-marker
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+% https://www.overleaf.com/learn/latex/Questions/How_do_I_tab_(indent)_a_paragraph_in_LaTeX%3F
+\usepackage{indentfirst}
+
+\title{ECS 32B: Conceptual Homework \#1}
+\author{Instructor: Aaron Kaloti}
+\date{Summer Session \#2 2020\blfootnote{This content is protected and may not be shared, uploaded, or distributed.}}
+
+\begin{document}
+
+\maketitle
+
+% \tableofcontents
+
+\section{Changelog}
+
+You should always refer to the latest version of this document.
+
+\begin{itemize}[itemsep=0mm, parsep=0pt]
+\item v.1: Initial version.
+\item v.2: \textcolor{red}{I do not care if your LaTeX \lstinline{.tex} file has the most up-to-date changelog.} Clarified that the very last problem is asking about auxiliary space.
+\end{itemize}
+
+\section{Grading}
+
+\begin{itemize}[itemsep=0mm, parsep=0pt]
+\item \textbf{Due date}: the night of Wednesday, 08/12. (Due to the ``grace period'', Gradescope will say 12:30 AM on Thursday, 08/13.)
+\item A subset of the problems will be graded for correctness. The rest will be graded on completion.
+\end{itemize}
+
+\section{Submission Requirements}
+
+\begin{itemize}[itemsep=0mm, parsep=0pt]
+\item Your submission must be typed with LaTeX. \textbf{Handwritten/scanned solutions, or solutions not typed with LaTeX, will earn no credit.}
+    \begin{itemize}[itemsep=0mm, parsep=0pt]
+    \item \textit{Especially if you have never used LaTeX before}, you should avoid doing this assignment at the last minute, because it will take a bit of time to get used to LaTeX and to type your answers up into a LaTeX document.
+    \item I will not teach LaTeX during lecture, because that would be a waste of time. You should be able to pick up LaTeX through a combination of inspecting the \lstinline{.tex} file corresponding to this document (which is uploaded to Canvas) and looking up certain aspects of LaTeX (e.g. on the Overleaf website) that you do not understand. It will take a bit of time, but you'll quickly become comfortable enough with LaTeX to not have to think about it.
+    \item If you have never used LaTeX, then you may find \href{https://www.overleaf.com/}{Overleaf}, an online LaTeX editor, convenient. I believe that Overleaf also supports collaboration. (As stated below, you can partner with at most one other student.) There are also many means of compiling LaTeX directly on your computer, and there are even some IDEs that support LaTeX. (In case you are curious, I use \lstinline{pdflatex} to compile LaTeX documents on the command line / terminal, but you will not learn about command lines until ECS 34.)
+    \end{itemize}
+\item Your submission must consist of two files:
+    \begin{enumerate}[itemsep=0mm, parsep=0pt]
+    \item \lstinline{hw1_answers.tex}: the LaTeX file containing your answers.
+        \begin{itemize}[itemsep=0mm, parsep=0pt]
+        \item The file \lstinline{conceptual_hw1.tex} on Canvas is the LaTeX file that was used to make this PDF (\lstinline{conceptual_hw1.pdf}). Use it as a template for your answers. (This is especially important because it will keep the numbering of the problems consistent between your answers and the questions.) Just make sure that your \lstinline{.tex} file has the correct name. If you wish, you can experiment with the style of the document too, e.g. the background color of the code segments, the margin sizes, etc. Again, just make sure that the numbering of the sections is the same as it originally was; this matters even if you mark the pages properly on Gradescope (see below).
+        \end{itemize}
+    \item \lstinline{hw1_answers.pdf}: the PDF generated from your LaTeX file.
+    \end{enumerate}
+\item You may be penalized if, when submitting on Gradescope, you mark the wrong page for a given homework problem, because dealing with this slows down grading. At the beginning of the 08/06 lecture, I will talk (or did already talk, depending on when you are reading this) about how to mark the pages of your submission on Gradescope.
+\item When using LaTeX, you should make use of the math notation/mode where sensible. (The math mode refers to when you put mathematical equations, etc. between dollar signs so that LaTex makes them look nice.) Repeated failures to do this, to the point that the purpose of using LaTeX is defeated or the readability of your answers is impeded, may result in a penalty on this assignment.
+\end{itemize}
+
+\section{Regarding Collaboration}
+
+\begin{itemize}[itemsep=0mm, parsep=0pt]
+\item You may not copy answers from any sources, including online sources such as Chegg, StackOverflow, or any solutions manual of any textbook.
+\item You may partner with \textbf{\textit{at most one}} other student on this assignment. In other words, you can work in \textit{pairs}. You do not have to partner with anyone. (In fact, I think it is better that you do not.) If you partner with someone, it must be a committed partnership; that is, you two will have the same submission, and you must mark on Gradescope that you have partnered for this assignment by following the directions \href{https://www.youtube.com/watch?v=rue7p_kATLA}{here}.
+\item If students that were not in the same pair seem to have excessively similar answers, they will be reported to the OSSJA for suspicion of academic misconduct. Do not copy answers from (or share answers with) any student who you are not partnered with.
+\end{itemize}
+
+\section{Identification}
+
+Enter the members of your pair. (You can partner with at most one other student.) If you are not partnered with anyone, then leave the second box empty. You can remove the use of \lstinline{\vspace} in the \lstinline{.tex} file.
+
+Pair member \#1:
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+Pair member \#2:
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\section{Problems}
+
+Unless explicitly specified, you do not need to justify your answer. Place your answer into the answer boxes; you can remove the use of \lstinline{\vspace} in the answer boxes in the \lstinline{.tex} file.
+
+\subsection{Big-$O$}
+
+For each question in this subsection, answer with True or False; do not justify your answer.
+
+\subsubsection{}
+
+$2n^2 + 3n + 8$ is $O(n^2)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$4n^2 + 17 - 8n$ is $O(n^2)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$5n^2 + 20$ is $O(n)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$17 - 3n + 8n$ is $O(n)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$8n^4 + 3n^3 - 5n^2 + 9n^4 + 6 + 16n^2$ is $O(n^4)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$8n^4 + 3n^3 - 5n^2 + 9n^4 + 6 + 16n^2$ is $O(n^3)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$8n^4 + 3n^3 - 5n^2 + 9n^4 + 6 + 16n^2$ is $O(n^5)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Big-$O$ Proofs}
+
+Consult the formal definition if big-$O$ in the lecture slides (slide 18). For each question in this subsection, answer with True or False. If your answer is True, then do not justify/explain your answer. If your answer is False, then you should explain why the proposed constants $c$ and $n_0$ do not form a correct proof. (Naming constants $c$ and $n_0$ that \textit{do} work -- which you do not need to do anyways -- is insufficient.)
+
+\subsubsection{}
+
+If we are trying to prove that $4n^2$ is $O(n^2)$, then choosing $c = 5$ and $n_0 = 1$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+If we are trying to prove that $5n + 3n^4 + 9$ is $O(n^4)$, then choosing $c = 3$ and $n_0 = 1$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+If we are trying to prove that $6n + 2$ is $O(n^2)$, then choosing $c = 2$ and $n_0 = 3$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+If we are trying to prove that $3n^2 - 10n + 5$ is $O(n^2)$, then choosing $c = 2$ and $n_0 = 4$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+If we are trying to prove that $3n^2 - 10n + 5$ is $O(n)$, then choosing $c = 1$ and $n_0 = 1$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+If we are trying to prove that $f_1$ is $O(f_2)$, where $f_1(n) = 5n^3 + 6$ and $f_2(n) = 6n^3 - 10n$, then choosing $c = 2$ and $n_0 = 6$ suffices.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Logarithms}
+
+Suppose that $f_1(n) = \log_{3} n$ and $f_2(n) = \log_{7} n$. Answer the following two questions.
+
+\textit{Hint} for the below two problems: Remember the change-of-base formula for logarithmic functions.
+
+\subsubsection{}
+
+Provide the \textit{smallest} value of $c$ that, when used with $n_0 = 1$, proves that $f_1$ is $O(f_2)$. Alternatively, if this is not possible, then just say ``Not possible'' (no justification needed).
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Provide the \textit{smallest} value of $c$ that, when used with $n_0 = 1$, proves that $f_2$ is $O(f_1)$. Alternatively, if this is not possible, then just say ``Not possible'' (no justification needed).
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Big-$O$ and Code \#1}
+
+Consider the function shown below.
+
+\begin{lstlisting}[language=Python]
+# @n is an integer.
+def foo(n):
+    i = 3
+    x = 0
+    while i < n:
+        x += 1
+        i += 1
+    return x
+\end{lstlisting}
+
+For each of the following questions regarding the above function, answer True or False. Do not justify your answer.
+
+Note that since big-$O$ is concerned with asymptotic (i.e. long-run) growth, the fact that the loop in \lstinline{foo()} does not do any iterations when \lstinline{n <= 3} can be ignored, since there is a consistent growth rate when we look at how \lstinline{n} increases beyond \lstinline{n > 3}.
+
+\subsubsection{}
+
+In the ``worst case''\footnote{In this particular problem, you can think of the worst case as being identical to the best case, since there is no meaningful distinction between the two.}, \lstinline{foo()} takes $O(n)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+In the worst case, \lstinline{foo()} takes $O(n^2)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+In the worst case, \lstinline{foo()} takes $O(n \lg n)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Big-$O$ and Code \#2}
+
+Consider the function shown below.
+
+\begin{lstlisting}[language=Python]
+# @vals is a list of integers.
+def foo(vals):
+    i = 4
+    s = 0
+    while i < len(vals):
+        s += vals[i]
+        i += 1
+    return s
+\end{lstlisting}
+
+Answer each of the following questions about the above function.
+
+\subsubsection{}
+
+As stated in lecture, \lstinline{len(vals)} takes constant time. State whether this is true or false: \lstinline{foo()} runs in $O(n)$ time\footnote{As with the previous problem's function, in this function, there is no meaningful distinction between worst case and best case, since the entire list will always be traversed.}, where $n$ is \lstinline{len(vals)}. If your answer is false, explain why.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Suppose that \lstinline{len(vals)} now takes linear time to evaluate. State whether this is true or false: \lstinline{foo()} runs in $O(n)$ time, where $n$ is \lstinline{len(vals)}. If your answer is false, explain why.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Big-$\Omega$ and Big-$\Theta$}
+
+For each question in this subsection, answer with True or False; do not justify your answer. $f(n) = 15n^3 + 18n^4 - 6 + 12n^2 + 2n^3$.
+
+\subsubsection{}
+
+$f(n)$ is $\Omega(1)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$f(n)$ is $\Omega(n^3)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$f(n)$ is $\Omega(n^5)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$f(n)$ is $\Theta(n^3)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+$f(n)$ is $\Theta(n^4)$.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Big-$\Omega$ and Big-$\Theta$ of Code}
+
+Consider the function shown below.
+
+\begin{lstlisting}[language=Python]
+# @vals is a list of integers.
+# @target is an integer.
+# This function returns the index of the first occurrence
+# of @vals in the given list.
+# Only EVERY OTHER element of @vals is considered; the rest are ignored.
+def search_every_other(vals, target):
+    for i in range(0, len(vals), 2):
+        if vals[i] == target:
+            return i
+    return -1  # not found
+\end{lstlisting}
+
+Answer each of the following questions about the above function. Let $n$ refer to \lstinline{len(vals)}.
+
+\subsubsection{}
+
+Is the following statement true or false? In the worst case, \lstinline{search_every_other()} runs in $O(n!)$ time. Do not justify your answer.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Is the following statement true or false? In the worst case, \lstinline{search_every_other()} runs in $\Omega(\lg n)$ time. Do not justify your answer.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Provide a function $f(n)$ such that, in the worst case, \lstinline{search_every_other()} runs in $\Theta(f(n))$ time. $f(n)$ should not have any leading coefficients and should only have one term.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Is the following statement true or false? In the \textit{best} case, \lstinline{search_every_other()} runs in $\Theta(1)$ time. If your answer is true, do not justify it; if your answer is false, then justify it.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Is the following statement true or false? In the \textit{best} case, \lstinline{search_every_other()} runs in $O(n)$ time. If your answer is true, do not justify it; if your answer is false, then justify it.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+Provide a function $f(n)$ such that, in the \textit{average} case, \lstinline{search_every_other()} runs in $\Theta(f(n))$ time. $f(n)$ should not have any leading coefficients and should only have one term. Here, we define the ``average case'' as occurring when the target is first found halfway through the list.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{2D Lists}
+
+Consider the function shown below.
+
+\begin{lstlisting}[language=Python]
+# @vals1 and @vals2 are 2D lists of integers of the same dimensions and are squares.
+# This function returns True if @vals1 and @vals2 have the same values.
+# Note that since the == can compare 2D lists, this function is useless.
+def compare(vals1, vals2):
+    for r in range(len(vals1)):
+        for c in range(len(vals1[r])):
+            if vals1[r][c] != vals2[r][c]:
+                return False
+    return True
+\end{lstlisting}
+
+For each of the following questions regarding the above function, answer True or False. Do not justify your answer. Let $n$ refer to \lstinline{len(vals)}. (As stated above, \lstinline{vals1} and \lstinline{vals2} are each squares.)
+
+\subsubsection{}
+
+In the worst case, \lstinline{compare()} runs in $O(n)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+In the worst case, \lstinline{compare()} runs in $\Omega(n^2)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+In the worst case, \lstinline{compare()} runs in $\Theta(n^2)$ time.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+In the worst case, \lstinline{compare()} uses $\Theta(n^2)$ auxiliary space.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsection{Last One}
+
+Consider the function shown below.
+
+\begin{lstlisting}[language=Python]
+# @vals is a n-by-n 2D list of integers, where n = len(vals).
+def foo(vals):
+    x = []
+    for i in range(len(vals)):
+        x.append(vals[i][i])
+    return x
+\end{lstlisting}
+
+Answer the following questions. Let $n$ refer to \lstinline{len(vals)}.
+
+\subsubsection{}
+
+What is the worst-case time complexity of \lstinline{foo()} in big-$\Theta$ notation? Explain.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+\subsubsection{}
+
+What is the worst-case space complexity (auxiliary space) of \lstinline{foo()} in big-$\Theta$ notation? Explain.
+
+\begin{mdframed}
+\vspace{3em}
+%% TODO
+\end{mdframed}
+
+% \begin{center}
+% \includegraphics[scale=0.4]{UCD_CS_Logo}
+% \end{center}
+
+\end{document}
