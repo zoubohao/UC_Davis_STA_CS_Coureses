@@ -1,0 +1,17 @@
+BST/STA 223 HW3 
+Due: Wed, Feb 10, 2021 at 3pm
+
+Reading: Lecture notes p. 45-75
+
+
+Problems 
+
+Set 2
+5, 7(c)
+
+Set 3
+1,7,8,9
+
+Set 4
+2,3
+
